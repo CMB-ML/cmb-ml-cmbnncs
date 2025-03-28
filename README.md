@@ -1,46 +1,30 @@
 This repo is a work-in-progress attempt to hold the PyILC portion of CMB-ML, separately from the rest. 
 
-# Installation
-
-## Short version:
-
-- Download the CMB-ML repository
-    - `git clone git@github.com:CMB-ML/cmb-ml.git`
-    - `cd cmb-ml`
-    - `git switch whatever` (dev-rm-pyilc)
-    - Follow the README instructions there
-- Get [PyILC](https://github.com/jcolinhill/pyilc)
-  - Simply clone the repository
-  - No installation is needed, CMB-ML runs the code as its own
-  - This was run and tested with [the version from April 30, 2024](https://github.com/jcolinhill/pyilc/tree/7ced3ec392a520977b3c672a2a7af62064dcc296)
-- Configure your local system
-  - See [Setting up your environment](https://github.com/CMB-ML/cmb-ml-tutorials/blob/main/C_setting_up_local.ipynb) for more information
-  - Set your CMB_ML_DATA environment variable, and ensure that the directory exists
-    - E.g., `export CMB_ML_DATA=/data/jim/CMB_Data`
-  - In pyilc_redir, edit the `__init__.py` file to point to the directory containing your local installation of pyilc (containing the pyilc `inputs.py` and `wavelets.py`)
-
-## Installation instructions (full):
+# Installation instructions:
 
 - Download the CMB-ML repository
     - `git clone git@github.com:CMB-ML/cmb-ml.git`
     - `cd cmb-ml`
     - `git switch whatever` (dev-rm-pyilc)
 - Create the conda environment 
-    - remove old conda installations (and Poetry... which can be gotten rid of as a whole)
+    - Be sure the current working directory is the main CMB-ML repository folder
+    - Remove old conda installations (and Poetry... which can be gotten rid of as a whole)
         - `conda remove -n cmb-ml --all`
-    - still required due to either namaster or torch... this could be fixed soon, possibly
-    - `conda env create -f env.yaml`
+    - Create the CMB-ML environment `conda env create -f env.yaml`
     - To change the name of the environment, edit the file or use a different command.
 - Activate the conda environment
     - `conda activate cmb-ml`
 - Install CMB-ML
+    - Still within the main CMB-ML repository folder
     - `which pip` (ensure that the response is within the conda environment)
     - `pip install .`
+- Install required packages for this repository
+  - `cd /whatever` to navigate to this repository 
+  - `conda env update -n cmb-ml -f env.yaml`
 - Configure your local system
   - See [Setting up your environment](https://github.com/CMB-ML/cmb-ml-tutorials/blob/main/C_setting_up_local.ipynb) for more information
   - Set your CMB_ML_DATA environment variable, and ensure that the directory exists
     - E.g., `export CMB_ML_DATA=/data/jim/CMB_Data`
-  - In pyilc_redir, edit the `__init__.py` file to point to the directory containing your local installation of pyilc (containing the pyilc `inputs.py` and `wavelets.py`)
 - Download some external science assets and the CMB-ML assets
   - See [Setting up your environment](https://github.com/CMB-ML/cmb-ml-tutorials/blob/main/C_setting_up_local.ipynb) for more information
   - External science assets include Planck's observations maps (from which we get information for producing noise) and Planck's NILC prediction map (for the mask; NILC is a parameter)

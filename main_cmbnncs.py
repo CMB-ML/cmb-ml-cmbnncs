@@ -82,10 +82,10 @@ def run_cmbnncs(cfg):
 
     pipeline_context.add_pipe(PreprocessMakeScaleExecutor)
     # # pipeline_context.add_pipe(NonParallelPreprocessExecutor)  # For demonstration only
-    # pipeline_context.add_pipe(PreprocessExecutor)
+    pipeline_context.add_pipe(PreprocessExecutor)
     # pipeline_context.add_pipe(ShowSimsPrepExecutor)  # Deactivated during repo separation
 
-    # pipeline_context.add_pipe(TrainingExecutor)
+    pipeline_context.add_pipe(TrainingExecutor)
 
     pipeline_context.add_pipe(PredictionExecutor)
     # pipeline_context.add_pipe(CMBNNCSShowSimsPredExecutor)  # Deactivated during repo separation

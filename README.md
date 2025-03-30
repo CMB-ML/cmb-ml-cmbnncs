@@ -1,4 +1,4 @@
-This repo is a work-in-progress attempt to hold the PyILC portion of CMB-ML, separately from the rest. 
+This repo is a work-in-progress attempt to hold the cmbNNCS portion of CMB-ML, separately from the rest. 
 
 # Installation instructions:
 
@@ -9,7 +9,7 @@ This repo is a work-in-progress attempt to hold the PyILC portion of CMB-ML, sep
 - Create the conda environment 
     - Be sure the current working directory is the main CMB-ML repository folder
     - Remove old conda installations (and Poetry... which can be gotten rid of as a whole)
-        - `conda remove -n cmb-ml --all`
+        - `conda env remove -n cmb-ml`
     - Create the CMB-ML environment `conda env create -f env.yaml`
     - To change the name of the environment, edit the file or use a different command.
 - Activate the conda environment

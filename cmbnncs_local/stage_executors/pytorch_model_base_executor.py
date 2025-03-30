@@ -91,17 +91,17 @@ class BaseCMBNNCSModelExecutor(BasePyTorchModelExecutor):
     def __init__(self, cfg: DictConfig, stage_str) -> None:
         super().__init__(cfg, stage_str)
 
-        self.max_filters = cfg.model.cmbnncs.network.max_filters
+        self.max_filters = cfg.model.network.max_filters
         
         nside = cfg.scenario.nside
         input_channels = cfg.scenario.detector_freqs
-        kernels_size = cfg.model.cmbnncs.network.kernels_size
-        strides = cfg.model.cmbnncs.network.strides
-        mainActive = cfg.model.cmbnncs.network.mainActive
-        finalActive = cfg.model.cmbnncs.network.finalActive
-        finalBN = cfg.model.cmbnncs.network.finalBN
+        kernels_size = cfg.model.network.kernels_size
+        strides = cfg.model.network.strides
+        mainActive = cfg.model.network.mainActive
+        finalActive = cfg.model.network.finalActive
+        finalBN = cfg.model.network.finalBN
 
-        self.unet_to_make = cfg.model.cmbnncs.network.unet_to_make
+        self.unet_to_make = cfg.model.network.unet_to_make
 
         input_c = len(input_channels)
         sides = (nside ,nside)

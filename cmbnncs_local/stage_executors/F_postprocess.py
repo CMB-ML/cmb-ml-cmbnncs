@@ -57,7 +57,7 @@ class PostprocessExecutor(BaseStageExecutor):
         in_dataset_stats_handler: Config
         in_cmb_map_handler: NumpyMap
 
-        self.num_processes = self.cfg.model.cmbnncs.postprocess.num_processes
+        self.num_processes = self.cfg.model.postprocess.num_processes
 
     def execute(self) -> None:
         logger.debug(f"Running {self.__class__.__name__} execute().")

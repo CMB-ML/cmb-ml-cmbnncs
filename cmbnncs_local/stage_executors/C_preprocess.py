@@ -66,7 +66,7 @@ class PreprocessExecutor(BaseStageExecutor):
         det_info = in_det_table.read()
         self.instrument: Instrument = make_instrument(cfg=cfg, det_info=det_info)
 
-        self.num_processes = self.cfg.model.cmbnncs.preprocess.num_processes
+        self.num_processes = self.cfg.model.preprocess.num_processes
 
     def execute(self) -> None:
         logger.debug(f"Running {self.__class__.__name__} execute().")

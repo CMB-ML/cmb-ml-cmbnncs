@@ -47,24 +47,24 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
 
         self.norm_data = None
 
-        model_precision = cfg.model.cmbnncs.network.model_precision
+        model_precision = cfg.model.network.model_precision
         self.dtype = self.dtype_mapping[model_precision]
-        self.choose_device(cfg.model.cmbnncs.train.device)
+        self.choose_device(cfg.model.train.device)
 
-        self.lr_init = cfg.model.cmbnncs.train.learning_rate
-        self.lr_final = cfg.model.cmbnncs.train.learning_rate_min
-        self.repeat_n = cfg.model.cmbnncs.train.repeat_n
-        self.n_epochs = cfg.model.cmbnncs.train.n_epochs
-        self.batch_size = cfg.model.cmbnncs.train.batch_size
-        self.checkpoint = cfg.model.cmbnncs.train.checkpoint_every
-        self.extra_check = cfg.model.cmbnncs.train.extra_check
+        self.lr_init = cfg.model.train.learning_rate
+        self.lr_final = cfg.model.train.learning_rate_min
+        self.repeat_n = cfg.model.train.repeat_n
+        self.n_epochs = cfg.model.train.n_epochs
+        self.batch_size = cfg.model.train.batch_size
+        self.checkpoint = cfg.model.train.checkpoint_every
+        self.extra_check = cfg.model.train.extra_check
         # self.scale_class = None
         # self.set_scale_class(cfg)
 
-        self.restart_epoch = cfg.model.cmbnncs.train.restart_epoch
+        self.restart_epoch = cfg.model.train.restart_epoch
 
     # def set_scale_class(self, cfg):
-    #     scale_method = cfg.model.cmbnncs.preprocess.scaling
+    #     scale_method = cfg.model.preprocess.scaling
     #     self.scale_class = get_scale_class(method=scale_method, 
     #                                        dataset="train", 
     #                                        scale="scale")

@@ -29,11 +29,11 @@ class PredictionExecutor(BaseCMBNNCSModelExecutor):
         in_obs_map_handler: NumpyMap
         in_model_handler: PyTorchModel
 
-        model_precision = cfg.model.cmbnncs.network.model_precision
+        model_precision = cfg.model.network.model_precision
         self.dtype = self.dtype_mapping[model_precision]
 
-        self.choose_device(cfg.model.cmbnncs.predict.device)
-        self.batch_size = cfg.model.cmbnncs.predict.batch_size
+        self.choose_device(cfg.model.predict.device)
+        self.batch_size = cfg.model.predict.batch_size
 
     def execute(self) -> None:
         logger.debug(f"Running {self.__class__.__name__} execute().")

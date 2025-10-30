@@ -24,7 +24,7 @@ from cmbml.core.asset_handlers import (
     HealpyMap,
     Config
     )
-from cmbml.utils import make_instrument, Instrument, Detector
+from cmbml.utils.planck_instrument import make_instrument, Instrument
 
 
 logger = logging.getLogger(__name__)

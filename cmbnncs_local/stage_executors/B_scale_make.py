@@ -10,7 +10,7 @@ from cmbml.core import (
     Split,
     Asset
     )
-from cmbml.utils import make_instrument, Instrument
+from cmbml.utils.planck_instrument import make_instrument, Instrument
 from cmbml.core.asset_handlers import (Config, HealpyMap)
 
 

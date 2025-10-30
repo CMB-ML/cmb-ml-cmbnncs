@@ -17,7 +17,7 @@ from cmbml.core import (
 from cmbnncs_local.unet_wrapper import make_unet
 
 from cmbml.torch.pytorch_model_handler import PyTorchModel  # Must be imported to get it registered
-from cmbml.utils import make_instrument, Instrument, Detector
+from cmbml.utils.planck_instrument import make_instrument, Instrument
 
 
 logger = logging.getLogger(__name__)

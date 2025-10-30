@@ -64,7 +64,7 @@ class PreprocessExecutor(BaseStageExecutor):
         in_det_table_handler: QTableHandler
 
         det_info = in_det_table.read()
-        self.instrument: Instrument = make_instrument(cfg=cfg, det_info=det_info)
+        self.instrument: Instrument = make_instrument(cfg=cfg)
 
         self.num_processes = self.cfg.model.preprocess.num_processes
 

@@ -99,7 +99,7 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(CommonRealPostExecutor)
     # # # Apply to CMBNNCS's predictions
     # # pipeline_context.add_pipe(CommonCMBNNCSPredPostExecutor)  # Deactivated during repo separation
-    pipeline_context.add_pipe(CommonPredPostExecutor)
+    # pipeline_context.add_pipe(CommonPredPostExecutor)
 
     # # # Show results of cleaning
     # pipeline_context.add_pipe(CommonShowSimsPostExecutor)

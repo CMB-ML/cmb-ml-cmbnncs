@@ -92,7 +92,6 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(PostprocessExecutor)
     # # pipeline_context.add_pipe(NonParallelPostprocessExecutor)  # For demonstration only
 
-    # pipeline_context.add_pipe(MaskCreatorExecutor)
 
     # # In the following, "Common" means "Apply the same postprocessing to all models"; requires a mask
     # # Apply to the target (CMB realization)
@@ -102,6 +101,7 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(CommonPredPostExecutor)
 
     # # # Show results of cleaning
+    pipeline_context.add_pipe(MaskCreatorExecutor)
     # pipeline_context.add_pipe(CommonShowSimsPostExecutor)
     # # pipeline_context.add_pipe(CommonCMBNNCSShowSimsPostExecutor)  # Deactivated during repo separation
     # # pipeline_context.add_pipe(CommonCMBNNCSShowSimsPostIndivExecutor)  # Deactivated during repo separation

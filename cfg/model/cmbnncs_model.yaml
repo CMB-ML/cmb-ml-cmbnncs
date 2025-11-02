@@ -1,5 +1,6 @@
 defaults:
   - network: unet8
+  - analysis/beam_type: cmbnncs_beam
   - _self_
 
 preprocess:

@@ -39,23 +39,23 @@ from cmbnncs_local import (
                            PredictionExecutor,
                            PostprocessExecutor,
                         #    NonParallelPostprocessExecutor
+                           CMBNNCSMakePSExecutor,
                            )
 
 from cmbml.analysis import (
                             # ShowSimsPrepExecutor, 
-                            CommonRealPostExecutor,
+                            # CommonRealPostExecutor,
                             CommonPredPostExecutor,
-                            CommonShowSimsPostExecutor,
+                            # CommonShowSimsPostExecutor,
                             # CommonCMBNNCSPredPostExecutor,
                             # CommonCMBNNCSShowSimsPostExecutor,
                             # CommonCMBNNCSShowSimsPostIndivExecutor,
                             # CMBNNCSShowSimsPredExecutor, 
                             # CMBNNCSShowSimsPostExecutor,
-                            PixelAnalysisExecutor,
-                            PixelSummaryExecutor,
+                            # PixelAnalysisExecutor,
+                            # PixelSummaryExecutor,
                             # ConvertTheoryPowerSpectrumExecutor,
                             # MakeTheoryPSStats,
-                            # CMBNNCSMakePSExecutor,
                             # PixelSummaryFigsExecutor,
                             # PowerSpectrumAnalysisExecutor,
                             # PowerSpectrumSummaryExecutor,
@@ -80,16 +80,16 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(HydraConfigCheckerExecutor)
     # pipeline_context.add_pipe(HydraConfigCMBNNCSCheckerExecutor)
 
-    pipeline_context.add_pipe(PreprocessMakeScaleExecutor)
+    # pipeline_context.add_pipe(PreprocessMakeScaleExecutor)
     # # pipeline_context.add_pipe(NonParallelPreprocessExecutor)  # For demonstration only
-    pipeline_context.add_pipe(PreprocessExecutor)
+    # pipeline_context.add_pipe(PreprocessExecutor)
     # pipeline_context.add_pipe(ShowSimsPrepExecutor)  # Deactivated during repo separation
 
-    pipeline_context.add_pipe(TrainingExecutor)
+    # pipeline_context.add_pipe(TrainingExecutor)
 
-    pipeline_context.add_pipe(PredictionExecutor)
+    # pipeline_context.add_pipe(PredictionExecutor)
     # pipeline_context.add_pipe(CMBNNCSShowSimsPredExecutor)  # Deactivated during repo separation
-    pipeline_context.add_pipe(PostprocessExecutor)
+    # pipeline_context.add_pipe(PostprocessExecutor)
     # # pipeline_context.add_pipe(NonParallelPostprocessExecutor)  # For demonstration only
 
     # pipeline_context.add_pipe(MaskCreatorExecutor)
@@ -99,7 +99,7 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(CommonRealPostExecutor)
     # # # Apply to CMBNNCS's predictions
     # # pipeline_context.add_pipe(CommonCMBNNCSPredPostExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(CommonPredPostExecutor)
+    pipeline_context.add_pipe(CommonPredPostExecutor)
 
     # # # Show results of cleaning
     # pipeline_context.add_pipe(CommonShowSimsPostExecutor)
@@ -115,8 +115,8 @@ def run_cmbnncs(cfg):
     # pipeline_context.add_pipe(MakeTheoryPSStats)  # Deactivated during repo separation
 
     # # # # CMBNNCS's Predictions as Power Spectra Anaylsis
-    # pipeline_context.add_pipe(CMBNNCSMakePSExecutor)  # Deactivated during repo separation
-    # # pipeline_context.add_pipe(ShowOnePSExecutor)  # Used for debugging; does not require full set of theory ps for simulations
+    pipeline_context.add_pipe(CMBNNCSMakePSExecutor)  # Deactivated during repo separation
+    # pipeline_context.add_pipe(ShowOnePSExecutor)  # Used for debugging; does not require full set of theory ps for simulations
     # pipeline_context.add_pipe(PowerSpectrumAnalysisExecutor)  # Deactivated during repo separation
     # pipeline_context.add_pipe(PowerSpectrumSummaryExecutor)  # Deactivated during repo separation
     # pipeline_context.add_pipe(PowerSpectrumSummaryFigsExecutor)  # Deactivated during repo separation

@@ -1,0 +1,7 @@
+defaults:
+  - assembly_planck_as_sim
+  # Mostly, use pipeline for simulations:
+  - pipes_on_sims
+  # Adjustments needed:
+  - adapt_on_planck
+  - _self_

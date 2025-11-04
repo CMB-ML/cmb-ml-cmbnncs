@@ -69,61 +69,42 @@ logger = logging.getLogger(__name__)
 
 
 @hydra.main(version_base=None, config_path="cfg", config_name="config_cmbnncs_unet8")
-def run_cmbnncs(cfg):
+def cmbnncs(cfg):
     logger.debug(f"Running {__name__} in {__file__}")
+    pipes = [
+        # HydraConfigCheckerExecutor,
+        # HydraConfigCMBNNCSCheckerExecutor,
+        PreprocessMakeScaleExecutor,
+        PreprocessExecutor,
+        TrainingExecutor,
+        PredictionExecutor,
+        PostprocessExecutor,
+        CMBNNCSMakePSExecutor,
+    ]
+    run(cfg, pipes)
 
+
+@hydra.main(version_base=None, config_path="cfg", config_name="config_cmbnncs_op")
+def cmbnncs_on_planck(cfg):
+    logger.debug(f"Running {__name__} in {__file__}")
+    pipes = [
+        PreprocessExecutor,
+        PredictionExecutor,
+        PostprocessExecutor,
+        CMBNNCSMakePSExecutor,
+    ]
+    run(cfg, pipes)
+
+
+def run(cfg, pipes):
     log_maker = LogMaker(cfg)
     log_maker.log_procedure_to_hydra(source_script=__file__)
 
     pipeline_context = PipelineContext(cfg, log_maker)
-
-    # pipeline_context.add_pipe(HydraConfigCheckerExecutor)
-    # pipeline_context.add_pipe(HydraConfigCMBNNCSCheckerExecutor)
-
-    # pipeline_context.add_pipe(PreprocessMakeScaleExecutor)
-    # # pipeline_context.add_pipe(NonParallelPreprocessExecutor)  # For demonstration only
-    # pipeline_context.add_pipe(PreprocessExecutor)
-    # pipeline_context.add_pipe(ShowSimsPrepExecutor)  # Deactivated during repo separation
-
-    # pipeline_context.add_pipe(TrainingExecutor)
-
-    # pipeline_context.add_pipe(PredictionExecutor)
-    # pipeline_context.add_pipe(CMBNNCSShowSimsPredExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(PostprocessExecutor)
-    # # pipeline_context.add_pipe(NonParallelPostprocessExecutor)  # For demonstration only
-
-
-    # # In the following, "Common" means "Apply the same postprocessing to all models"; requires a mask
-    # # Apply to the target (CMB realization)
-    # pipeline_context.add_pipe(CommonRealPostExecutor)
-    # # # Apply to CMBNNCS's predictions
-    # # pipeline_context.add_pipe(CommonCMBNNCSPredPostExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(CommonPredPostExecutor)
-
-    # # # Show results of cleaning
-    pipeline_context.add_pipe(MaskCreatorExecutor)
-    # pipeline_context.add_pipe(CommonShowSimsPostExecutor)
-    # # pipeline_context.add_pipe(CommonCMBNNCSShowSimsPostExecutor)  # Deactivated during repo separation
-    # # pipeline_context.add_pipe(CommonCMBNNCSShowSimsPostIndivExecutor)  # Deactivated during repo separation
-
-    # pipeline_context.add_pipe(PixelAnalysisExecutor)
-    # pipeline_context.add_pipe(PixelSummaryExecutor)
-    # pipeline_context.add_pipe(PixelSummaryFigsExecutor)  # Deactivated during repo separation
-
-    # # These two do not need to run individually for all models (but they're fast, so it doesn't matter unless you're actively changing them)
-    # pipeline_context.add_pipe(ConvertTheoryPowerSpectrumExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(MakeTheoryPSStats)  # Deactivated during repo separation
-
-    # # # # CMBNNCS's Predictions as Power Spectra Anaylsis
-    pipeline_context.add_pipe(CMBNNCSMakePSExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(ShowOnePSExecutor)  # Used for debugging; does not require full set of theory ps for simulations
-    # pipeline_context.add_pipe(PowerSpectrumAnalysisExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(PowerSpectrumSummaryExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(PowerSpectrumSummaryFigsExecutor)  # Deactivated during repo separation
-    # pipeline_context.add_pipe(PostAnalysisPsFigExecutor)  # Deactivated during repo separation
+    for pipe in pipes:
+        pipeline_context.add_pipe(pipe)
 
     pipeline_context.prerun_pipeline()
-
     try:
         pipeline_context.run_pipeline()
     except Exception as e:
@@ -135,4 +116,5 @@ def run_cmbnncs(cfg):
 
 
 if __name__ == "__main__":
-    run_cmbnncs()
+    cmbnncs()
+    cmbnncs_on_planck()

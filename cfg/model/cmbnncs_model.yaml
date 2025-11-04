@@ -18,10 +18,13 @@ train:
   repeat_n         : 3
   n_epochs         : ${num_epochs}     # CMBNNCS method sees 120,000 maps (10,000 x (size 12) batches). 120 epochs * 1000 simulations = 120,000
   batch_size       : 12                # Matching CMBNNCS paper
-  checkpoint_every : 5                 # checkpoint every this number of epochs
-  extra_check      : [1, 2, 3, 6, 9]
+  checkpoint_every : 20                 # checkpoint every this number of epochs
+  extra_check      : [1, 2, 3, 6, 10, 15]
   restart_epoch    : null              # Set to null to create a new model, or give a checkpoint number
   num_loader_workers: 0                # Load in main process (fails otherwise)
+  earliest_best     : 0  # Earliest epoch to save the best model
+                         #   when debugging with small datasets and low total epochs, 
+                         #   set to 0 to allow finding a best model at the very start
   # restart_epoch    : 40
 predict:
   device           : null  # Goes to None in python

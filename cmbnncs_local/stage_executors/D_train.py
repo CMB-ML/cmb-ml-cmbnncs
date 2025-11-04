@@ -62,6 +62,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         self.batch_size = cfg.model.train.batch_size
         self.checkpoint = cfg.model.train.checkpoint_every
         self.extra_check = cfg.model.train.extra_check
+        self.earliest_best = cfg.model.train.earliest_best
         # self.scale_class = None
         # self.set_scale_class(cfg)
 

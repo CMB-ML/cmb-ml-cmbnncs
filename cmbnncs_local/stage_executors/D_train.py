@@ -15,7 +15,8 @@ from cmbml.core import Split, Asset
 
 from cmbml.core.asset_handlers import (
     NumpyMap,
-    Config
+    Config, 
+    AppendingCsvHandler
     )
 
 from cmbml.torch.pytorch_model_handler import PyTorchModel
@@ -34,7 +35,9 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         super().__init__(cfg, stage_str="train")
 
         self.out_model: Asset = self.assets_out["model"]
+        self.out_loss_record: Asset = self.assets_out["loss_record"]
         out_model_handler: PyTorchModel
+        out_loss_record: AppendingCsvHandler
 
         self.in_model: Asset = self.assets_in["model"]
         self.in_cmb_asset: Asset = self.assets_in["cmb_map"]
@@ -51,6 +54,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         self.dtype = self.dtype_mapping[model_precision]
         self.choose_device(cfg.model.train.device)
 
+        self.num_workers = cfg.model.train.num_loader_workers
         self.lr_init = cfg.model.train.learning_rate
         self.lr_final = cfg.model.train.learning_rate_min
         self.repeat_n = cfg.model.train.repeat_n
@@ -82,12 +86,31 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         logger.info(f"Checkpoint every {self.checkpoint} iterations")
         logger.info(f"Extra check is set to {self.extra_check}")
 
-        template_split = self.splits[0]
-        dataset = self.set_up_dataset(template_split)
-        dataloader = DataLoader(
-            dataset, 
+        train_split = self.splits[0]
+        valid_split = self.splits[1]
+
+        # template_split = self.splits[0]
+        # dataset = self.set_up_dataset(template_split)
+        # train_dataloader = DataLoader(
+        #     dataset, 
+        #     batch_size=self.batch_size, 
+        #     shuffle=True,
+        #     )
+
+        train_dataset = self.set_up_dataset(train_split)
+        train_dataloader = DataLoader(
+            train_dataset, 
             batch_size=self.batch_size, 
             shuffle=True,
+            num_workers=self.num_workers
+            )
+
+        valid_dataset = self.set_up_dataset(valid_split)
+        valid_dataloader = DataLoader(
+            valid_dataset, 
+            batch_size=self.batch_size, 
+            shuffle=False,
+            num_workers=self.num_workers
             )
 
         model = self.make_model().to(self.device)
@@ -98,7 +121,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         optimizer = torch.optim.Adam(model.parameters(), lr=lr_init)
 
         # Match CMBNNCS's updates per batch, (not the more standard per epoch)
-        total_iterations = self.n_epochs * len(dataloader)
+        total_iterations = self.n_epochs * len(train_dataloader)
         scheduler = LambdaLR(optimizer, lr_lambda=lambda iteration: (lr_final / lr_init) ** (iteration / total_iterations))
 
         if self.restart_epoch is not None:
@@ -118,11 +141,16 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                 self.out_model.write(model=model, epoch="init")
             start_epoch = 0
 
+        n_epoch_digits = len(str(self.n_epochs))
+
+        all_train_loss = []
+        all_valid_loss = []
+
         for epoch in range(start_epoch, self.n_epochs):
-            epoch_loss = 0.0
+            train_loss = 0.0
             batch_n = 0
             batch_loss = 0
-            with tqdm(dataloader, postfix={'Loss': 0}) as pbar:
+            with tqdm(train_dataloader, postfix={'Loss': 0}) as pbar:
                 for train_features, train_label in pbar:
                     batch_n += 1
 
@@ -144,21 +172,63 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                     pbar.set_postfix({'Loss': loss.item() / self.batch_size})
 
                     batch_loss = batch_loss / self.repeat_n
+                    train_loss += batch_loss
 
-                    epoch_loss += batch_loss
+            train_loss /= len(train_dataloader.dataset)
+            all_train_loss.append(train_loss)
+            logger.info(f'Epoch {epoch+1}/{self.n_epochs}, Loss: {train_loss:.4f}')
 
-            epoch_loss /= len(dataloader.dataset)
-            
-            logger.info(f'Epoch {epoch+1}/{self.n_epochs}, Loss: {epoch_loss:.4f}')
+            model.eval()
+            valid_loss = 0
+            with torch.no_grad():
+                for valid_features, valid_label in valid_dataloader:
+                    valid_features = valid_features.to(device=self.device, dtype=self.dtype)
+                    valid_label = valid_label.to(device=self.device, dtype=self.dtype)
+                    output = model(valid_features)
+                    valid_loss += loss_function(output, valid_label).item()
+                valid_loss /= len(valid_dataloader)
+                all_valid_loss.append(valid_loss)
+                note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
+                logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")
+
+                self.out_loss_record.append([epoch + 1, train_loss, valid_loss])
+
+            is_best_condition_a = valid_loss == min(all_valid_loss)
+            is_best_condition_b = epoch >= self.earliest_best
+            if is_best_condition_a and is_best_condition_b:
+                with self.name_tracker.set_context("epoch", "best"):
+                    self.out_model.write(model=model,
+                                        epoch="best"
+                                        )
 
             # Checkpoint every so many epochs
-            if (epoch + 1) in self.extra_check or (epoch + 1) % self.checkpoint == 0:
+            condition_a = (epoch + 1) in self.extra_check
+            condition_b = (epoch + 1) % self.checkpoint == 0
+            if (condition_a or condition_b):
                 with self.name_tracker.set_context("epoch", epoch + 1):
                     self.out_model.write(model=model,
                                          optimizer=optimizer,
-                                         scheduler=scheduler,
-                                         epoch=epoch + 1,
-                                         loss=epoch_loss)
+                                         epoch=epoch + 1)
+
+        with self.name_tracker.set_context("epoch", "final"):
+            self.out_model.write(model=model, epoch="final")
+
+            # # Checkpoint every so many epochs
+            # if (epoch + 1) in self.extra_check or (epoch + 1) % self.checkpoint == 0:
+            #     with self.name_tracker.set_context("epoch", epoch + 1):
+            #         self.out_model.write(model=model,
+            #                              optimizer=optimizer,
+            #                              scheduler=scheduler,
+            #                              epoch=epoch + 1,
+            #                              loss=epoch_train_loss)
+
+            # is_best_condition_a = epoch_train_loss == min(all_valid_loss)
+            # is_best_condition_b = epoch >= self.earliest_best
+            # if is_best_condition_a and is_best_condition_b:
+            #     with self.name_tracker.set_context("epoch", "best"):
+            #         self.out_model.write(model=model,
+            #                             epoch="best"
+            #                             )
 
 
     def set_up_dataset(self, template_split: Split) -> None:

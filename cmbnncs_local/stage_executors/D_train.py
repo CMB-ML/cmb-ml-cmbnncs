@@ -135,11 +135,15 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                                                  scheduler=scheduler)
             if start_epoch == "init":
                 start_epoch = 0
+            self.out_loss_record.start()  # New lines will be added, naively 
+                                          #  Naively = appended; if resuming, manual cleaning may be needed.
         else:
             logger.info(f"Starting new model.")
             with self.name_tracker.set_context("epoch", "init"):
                 self.out_model.write(model=model, epoch="init")
             start_epoch = 0
+            loss_record_headers = ['Epoch', 'Training Loss', 'Validation Loss']
+            self.out_loss_record.write(data=loss_record_headers)
 
         n_epoch_digits = len(str(self.n_epochs))
 
@@ -150,7 +154,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
             train_loss = 0.0
             batch_n = 0
             batch_loss = 0
-            with tqdm(train_dataloader, postfix={'Loss': 0}) as pbar:
+            with tqdm(train_dataloader, desc="Training", postfix={'Loss': 0}) as pbar:
                 for train_features, train_label in pbar:
                     batch_n += 1
 
@@ -181,17 +185,18 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
             model.eval()
             valid_loss = 0
             with torch.no_grad():
-                for valid_features, valid_label in valid_dataloader:
-                    valid_features = valid_features.to(device=self.device, dtype=self.dtype)
-                    valid_label = valid_label.to(device=self.device, dtype=self.dtype)
-                    output = model(valid_features)
-                    valid_loss += loss_function(output, valid_label).item()
-                valid_loss /= len(valid_dataloader)
-                all_valid_loss.append(valid_loss)
-                note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
-                logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")
+                with tqdm(train_dataloader, desc="Validating", postfix={'Loss': 0}) as pbar:
+                    for valid_features, valid_label in pbar:
+                        valid_features = valid_features.to(device=self.device, dtype=self.dtype)
+                        valid_label = valid_label.to(device=self.device, dtype=self.dtype)
+                        output = model(valid_features)
+                        valid_loss += loss_function(output, valid_label).item()
+                    valid_loss /= len(valid_dataloader)
+                    all_valid_loss.append(valid_loss)
+                    note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
+                    logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")
 
-                self.out_loss_record.append([epoch + 1, train_loss, valid_loss])
+                    self.out_loss_record.append([epoch + 1, train_loss, valid_loss])
 
             is_best_condition_a = valid_loss == min(all_valid_loss)
             is_best_condition_b = epoch >= self.earliest_best

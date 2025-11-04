@@ -21,7 +21,7 @@ train:
   checkpoint_every : 5                 # checkpoint every this number of epochs
   extra_check      : [1, 2, 3, 6, 9]
   restart_epoch    : null              # Set to null to create a new model, or give a checkpoint number
-  num_loader_workers: null
+  num_loader_workers: 0                # Load in main process (fails otherwise)
   # restart_epoch    : 40
 predict:
   device           : null  # Goes to None in python

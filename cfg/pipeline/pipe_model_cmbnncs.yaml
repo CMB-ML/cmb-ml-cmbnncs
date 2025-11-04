@@ -43,6 +43,7 @@ train:
     obs_maps: {stage: preprocess}
   splits:
     - train
+    - valid
   dir_name: CMBNNCS_D_Model
   make_stage_log: True
 

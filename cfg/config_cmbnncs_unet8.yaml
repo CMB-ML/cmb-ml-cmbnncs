@@ -12,8 +12,8 @@ defaults:
 # dataset_name: CMML_Dataset
 # When creating multiple datasets, using interpolation like this may be easier:
 dataset_name       : ${map_fields}_${scenario.nside}_${splits.name}
-working_dir        : "CMBNNCS_UNet8/"
-fig_model_name     : CMBNNCS
+working_dir        : "cmbNNCS_UNet8/"
+fig_model_name     : cmbNNCS
 hydra:
   run:
     dir            : Logs/${now:%Y-%m-%d-%H-%M-%S}
@@ -33,7 +33,7 @@ num_epochs         : 120
 
 # In the pipeline yamls
 # For prediction, postprocessing, power spectra generation:
-use_epochs           : &epochs [120] #, 60, 80, 100, 120]
+use_epochs           : &epochs ["best"] #, 60, 80, 100, 120]
 # For single simulation figures (maps & ps figures):
 use_epochs_imgs      : ${use_epochs}
 # For summary statistics:

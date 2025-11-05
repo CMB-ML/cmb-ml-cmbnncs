@@ -11,7 +11,7 @@ defaults:
 
 # dataset_name: CMML_Dataset
 # When creating multiple datasets, using interpolation like this may be easier:
-dataset_name       : ${map_fields}_${scenario.nside}_${splits.name}
+dataset_name       : ${map_fields}_${scenario.nside}_1550  # TODO: need to hardcode this for use with on_planck
 working_dir        : "cmbNNCS_UNet8/"
 fig_model_name     : cmbNNCS
 hydra:

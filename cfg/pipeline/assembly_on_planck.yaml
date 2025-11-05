@@ -1,6 +1,6 @@
 defaults:
   - assembly_planck_as_sim
-  - pip_model_analysis
+  - pipe_model_analysis
   # Mostly, use pipeline for simulations:
   - pipe_model_cmbnncs
   # Adjustments needed:

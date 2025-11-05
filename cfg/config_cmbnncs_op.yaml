@@ -5,8 +5,8 @@ defaults:
   - override splits: "1-1"
   - _self_
 
-working_dir        : "$cmbNNCS_UNet8_on_Planck/"
-fig_model_name     : "$cmbNNCS, On Planck"
+working_dir        : "cmbNNCS_UNet8_on_Planck/"
+fig_model_name     : "cmbNNCS, On Planck"
 
 planck_ds: PlanckAsDataset_${scenario.nside}
 trained_wd: "cmbNNCS_UNet8/"

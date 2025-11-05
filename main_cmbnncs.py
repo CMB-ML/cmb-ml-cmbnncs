@@ -116,5 +116,5 @@ def run(cfg, pipes):
 
 
 if __name__ == "__main__":
-    cmbnncs()
+    # cmbnncs()
     cmbnncs_on_planck()

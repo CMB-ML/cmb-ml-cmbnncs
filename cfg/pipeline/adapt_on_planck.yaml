@@ -8,16 +8,13 @@
 #       - Working directory for training "Training Dir" (source only)
 #       - Output when using Planck as dataset with trained model
 
-preprocess_maps:
+preprocess:
   assets_in:
     # Pull maps from Planck Dir
     cmb_map:
       dataset: ${planck_ds}
     obs_maps:
       dataset: ${planck_ds}
-    # Pull processing parameters from Training Dir
-    lut:
-      working: ${trained_wd}
     dataset_stats:
       working: ${trained_wd}
   dir_name: D_Prep_Observs_Planck
@@ -25,18 +22,21 @@ preprocess_maps:
   splits: &test_only
     - test
 
-preprocess_spectra:
-  assets_in:
-    cmb_ps:
-      dataset: ${planck_ds}
-  dir_name: E_Prep_Spectra_Planck 
-  splits: *test_only
-
 predict: &final_inference
   assets_in:
     model:
       working: ${trained_wd}
   splits: *test_only
+
+postprocess: &final_inference
+  assets_in:
+    dataset_stats:
+      working: ${trained_wd}
+    # cmb_map:
+    #   dataset: ${planck_ds}
+  splits: *test_only
+
+final_infer: *final_inference  # Used so that analysis code can find a consistent name
 
 show_predictions:
   assets_out:

@@ -22,7 +22,7 @@ preprocess:
   splits: &test_only
     - test
 
-predict: &final_inference
+predict:
   assets_in:
     model:
       working: ${trained_wd}

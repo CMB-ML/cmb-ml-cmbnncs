@@ -61,13 +61,13 @@ def cmbnncs(cfg):
         # PreprocessMakeScaleExecutor,
         # PreprocessExecutor,
         TrainingExecutor,
-        PredictionExecutor,
-        PostprocessExecutor,
-        cmbNNCSMakePSExecutor,
-        CommonRealPostExecutor,
-        CommonPredPostExecutor,
-        cmbNNCSShowPostExecutor,
-        LossPlotExecutor
+        # PredictionExecutor,
+        # PostprocessExecutor,
+        # cmbNNCSMakePSExecutor,
+        # CommonRealPostExecutor,
+        # CommonPredPostExecutor,
+        # cmbNNCSShowPostExecutor,
+        # LossPlotExecutor
     ]
     run(cfg, pipes)
 

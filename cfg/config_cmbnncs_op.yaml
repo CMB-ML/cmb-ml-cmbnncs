@@ -10,3 +10,4 @@ fig_model_name     : "cmbNNCS, On Planck"
 
 planck_ds: PlanckAsDataset_${scenario.nside}
 trained_wd: "cmbNNCS_UNet8/"
+splits.name: 1550

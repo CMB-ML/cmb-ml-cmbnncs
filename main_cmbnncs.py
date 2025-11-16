@@ -31,7 +31,7 @@ from cmbml.core import (
 from cmbml.core.A_check_hydra_configs import HydraConfigCheckerExecutor
 from cmbml.sims import MaskCreatorExecutor
 from cmbnncs_local import (
-                           HydraConfigCMBNNCSCheckerExecutor,
+                           HydraConfigcmbNNCSCheckerExecutor,
                            PreprocessMakeScaleExecutor,
                            PreprocessExecutor,
                         #    NonParallelPreprocessExecutor,
@@ -39,30 +39,9 @@ from cmbnncs_local import (
                            PredictionExecutor,
                            PostprocessExecutor,
                         #    NonParallelPostprocessExecutor
-                           CMBNNCSMakePSExecutor,
+                           cmbNNCSMakePSExecutor,
+                           cmbNNCSShowPostExecutor
                            )
-
-from cmbml.analysis import (
-                            # ShowSimsPrepExecutor, 
-                            # CommonRealPostExecutor,
-                            CommonPredPostExecutor,
-                            # CommonShowSimsPostExecutor,
-                            # CommonCMBNNCSPredPostExecutor,
-                            # CommonCMBNNCSShowSimsPostExecutor,
-                            # CommonCMBNNCSShowSimsPostIndivExecutor,
-                            # CMBNNCSShowSimsPredExecutor, 
-                            # CMBNNCSShowSimsPostExecutor,
-                            # PixelAnalysisExecutor,
-                            # PixelSummaryExecutor,
-                            # ConvertTheoryPowerSpectrumExecutor,
-                            # MakeTheoryPSStats,
-                            # PixelSummaryFigsExecutor,
-                            # PowerSpectrumAnalysisExecutor,
-                            # PowerSpectrumSummaryExecutor,
-                            # PowerSpectrumSummaryFigsExecutor,
-                            # PostAnalysisPsFigExecutor,
-                            # ShowOnePSExecutor
-                            )
 
 
 logger = logging.getLogger(__name__)
@@ -74,12 +53,13 @@ def cmbnncs(cfg):
     pipes = [
         # HydraConfigCheckerExecutor,
         # HydraConfigCMBNNCSCheckerExecutor,
-        PreprocessMakeScaleExecutor,
-        PreprocessExecutor,
-        TrainingExecutor,
-        PredictionExecutor,
-        PostprocessExecutor,
-        CMBNNCSMakePSExecutor,
+        # PreprocessMakeScaleExecutor,
+        # PreprocessExecutor,
+        # TrainingExecutor,
+        # PredictionExecutor,
+        # PostprocessExecutor,
+        # cmbNNCSMakePSExecutor,
+        cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)
 
@@ -91,7 +71,8 @@ def cmbnncs_on_planck(cfg):
         PreprocessExecutor,
         PredictionExecutor,
         PostprocessExecutor,
-        CMBNNCSMakePSExecutor,
+        cmbNNCSMakePSExecutor,
+        cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)
 
@@ -116,5 +97,5 @@ def run(cfg, pipes):
 
 
 if __name__ == "__main__":
-    # cmbnncs()
-    cmbnncs_on_planck()
+    cmbnncs()
+    # cmbnncs_on_planck()

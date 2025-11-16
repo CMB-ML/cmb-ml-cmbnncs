@@ -44,7 +44,8 @@ from cmbnncs_local import (
                            )
 from cmbml.analysis import (
     CommonRealPostExecutor,
-    CommonPredPostExecutor
+    CommonPredPostExecutor,
+    LossPlotExecutor
 )
 
 
@@ -61,11 +62,12 @@ def cmbnncs(cfg):
         # PreprocessExecutor,
         # TrainingExecutor,
         # PredictionExecutor,
-        PostprocessExecutor,
+        # PostprocessExecutor,
         # cmbNNCSMakePSExecutor,
-        CommonRealPostExecutor,
-        CommonPredPostExecutor,
-        cmbNNCSShowPostExecutor
+        # CommonRealPostExecutor,
+        # CommonPredPostExecutor,
+        # cmbNNCSShowPostExecutor,
+        LossPlotExecutor
     ]
     run(cfg, pipes)
 

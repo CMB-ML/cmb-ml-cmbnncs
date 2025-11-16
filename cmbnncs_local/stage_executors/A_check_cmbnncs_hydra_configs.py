@@ -12,7 +12,7 @@ from cmbml.core import (
 logger = logging.getLogger(__name__)
 
 
-class HydraConfigCMBNNCSCheckerExecutor(BaseStageExecutor):
+class HydraConfigcmbNNCSCheckerExecutor(BaseStageExecutor):
     def __init__(self, cfg: DictConfig) -> None:
         # The following stage_str must match the pipeline yaml
         super().__init__(cfg, stage_str='check_hydra_configs')

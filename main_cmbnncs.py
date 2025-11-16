@@ -60,13 +60,13 @@ def cmbnncs(cfg):
         # HydraConfigCMBNNCSCheckerExecutor,
         # PreprocessMakeScaleExecutor,
         # PreprocessExecutor,
-        # TrainingExecutor,
-        # PredictionExecutor,
-        # PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
-        # CommonRealPostExecutor,
-        # CommonPredPostExecutor,
-        # cmbNNCSShowPostExecutor,
+        TrainingExecutor,
+        PredictionExecutor,
+        PostprocessExecutor,
+        cmbNNCSMakePSExecutor,
+        CommonRealPostExecutor,
+        CommonPredPostExecutor,
+        cmbNNCSShowPostExecutor,
         LossPlotExecutor
     ]
     run(cfg, pipes)

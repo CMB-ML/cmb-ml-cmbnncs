@@ -118,7 +118,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
 
         lr_init = self.lr_init
         lr_final = self.lr_final
-        loss_function = torch.nn.L1Loss(reduction='sum')
+        loss_function = torch.nn.L1Loss(reduction='mean')
         optimizer = torch.optim.Adam(model.parameters(), lr=lr_init)
 
         # Match CMBNNCS's updates per batch, (not the more standard per epoch)
@@ -154,13 +154,12 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         for epoch in range(start_epoch, self.n_epochs):
             train_loss = 0.0
             batch_n = 0
-            batch_loss = 0
 
             # Training
-            n_train_samples = 0
             with tqdm(train_dataloader, desc="Training", postfix={'Loss': 0}) as pbar:
                 for train_features, train_label in pbar:
                     batch_n += 1  # Unused
+                    batch_loss = 0
 
                     train_features = train_features.to(device=self.device, dtype=self.dtype)
                     train_label = train_label.to(device=self.device, dtype=self.dtype)
@@ -176,22 +175,19 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                         optimizer.step()
                         batch_loss += loss.item()
 
-                    batch_loss /= self.repeat_n
-                    train_loss += batch_loss
-                    n_train_samples += len(train_features)
-
                     scheduler.step()
+                    pbar.set_postfix({'Loss': loss.item() / self.batch_size})
 
-                    pbar.set_postfix({'Loss': loss.item() / len(train_features)})
+                    batch_loss = batch_loss / self.repeat_n
+                    train_loss += batch_loss
 
-            train_loss /= n_train_samples
+            train_loss /= len(train_dataloader)
             all_train_loss.append(train_loss)
             logger.info(f'Epoch {epoch+1}/{self.n_epochs}, Loss: {train_loss:.4f}')
 
             # Validation
             model.eval()
             valid_loss = 0
-            n_valid_samples = 0
             with torch.no_grad():
                 with tqdm(valid_dataloader, desc="Validating", postfix={'Loss': 0}) as pbar:
                     for valid_features, valid_label in pbar:
@@ -199,8 +195,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                         valid_label = valid_label.to(device=self.device, dtype=self.dtype)
                         output = model(valid_features)
                         valid_loss += loss_function(output, valid_label).item()
-                        n_valid_samples += len(valid_features)
-                    valid_loss /= n_valid_samples
+                    valid_loss /= len(valid_dataloader)
                     all_valid_loss.append(valid_loss)
                     note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
                     logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")

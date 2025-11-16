@@ -42,6 +42,10 @@ from cmbnncs_local import (
                            cmbNNCSMakePSExecutor,
                            cmbNNCSShowPostExecutor
                            )
+from cmbml.analysis import (
+    CommonRealPostExecutor,
+    CommonPredPostExecutor
+)
 
 
 logger = logging.getLogger(__name__)
@@ -57,8 +61,10 @@ def cmbnncs(cfg):
         # PreprocessExecutor,
         # TrainingExecutor,
         # PredictionExecutor,
-        # PostprocessExecutor,
+        PostprocessExecutor,
         # cmbNNCSMakePSExecutor,
+        CommonRealPostExecutor,
+        CommonPredPostExecutor,
         cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)

@@ -176,7 +176,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                         batch_loss += loss.item()
 
                     scheduler.step()
-                    pbar.set_postfix({'Loss': loss.item() / self.batch_size})
+                    pbar.set_postfix({'Loss': loss.item()})
 
                     batch_loss = batch_loss / self.repeat_n
                     train_loss += batch_loss
@@ -194,13 +194,15 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
                         valid_features = valid_features.to(device=self.device, dtype=self.dtype)
                         valid_label = valid_label.to(device=self.device, dtype=self.dtype)
                         output = model(valid_features)
-                        valid_loss += loss_function(output, valid_label).item()
-                    valid_loss /= len(valid_dataloader)
-                    all_valid_loss.append(valid_loss)
-                    note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
-                    logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")
+                        loss_val = loss_function(output, valid_label).item()
+                        valid_loss += loss_val
+                        pbar.set_postfix({'Loss': loss_val})
+                valid_loss /= len(valid_dataloader)
+                all_valid_loss.append(valid_loss)
+                note_min_loss = " *" if valid_loss == min(all_valid_loss) else ""
+                logger.info(f"Epoch {epoch + 1:<{n_epoch_digits}} Validation loss: {valid_loss:.02e}{note_min_loss}")
 
-                    self.out_loss_record.append([epoch + 1, train_loss, valid_loss])
+                self.out_loss_record.append([epoch + 1, train_loss, valid_loss])
 
             is_best_condition_a = valid_loss == min(all_valid_loss)
             is_best_condition_b = epoch >= self.earliest_best

@@ -29,7 +29,7 @@ detectors          : [100, 143, 217, 353]
 map_fields         : "I"
 
 # In the model yaml
-num_epochs         : 120
+num_epochs         : 15
 
 # In the pipeline yamls
 # For prediction, postprocessing, power spectra generation:

@@ -1,7 +1,11 @@
 import numpy as np
 import cmbnncs.unet as unet
 from cmbml.utils.suppress_print import SuppressPrint
-
+import collections
+if not hasattr(collections, "Iterable"):  # Python >3.10, needed for cmbNNCS
+    import collections.abc
+    collections.Iterable = collections.abc.Iterable
+    
 
 def make_unet(model_dict, max_filters, unet_to_make):
     log_max_filters = int(np.log2(max_filters))

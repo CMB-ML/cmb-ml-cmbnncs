@@ -41,28 +41,28 @@ from cmbnncs_local import (
                         #    NonParallelPostprocessExecutor
                            )
 
-from cmbml.analysis import (
-                            # ShowSimsPrepExecutor, 
-                            CommonRealPostExecutor,
-                            CommonPredPostExecutor,
-                            CommonShowSimsPostExecutor,
-                            # CommonCMBNNCSPredPostExecutor,
-                            # CommonCMBNNCSShowSimsPostExecutor,
-                            # CommonCMBNNCSShowSimsPostIndivExecutor,
-                            # CMBNNCSShowSimsPredExecutor, 
-                            # CMBNNCSShowSimsPostExecutor,
-                            PixelAnalysisExecutor,
-                            PixelSummaryExecutor,
-                            # ConvertTheoryPowerSpectrumExecutor,
-                            # MakeTheoryPSStats,
-                            # CMBNNCSMakePSExecutor,
-                            # PixelSummaryFigsExecutor,
-                            # PowerSpectrumAnalysisExecutor,
-                            # PowerSpectrumSummaryExecutor,
-                            # PowerSpectrumSummaryFigsExecutor,
-                            # PostAnalysisPsFigExecutor,
-                            # ShowOnePSExecutor
-                            )
+# from cmbml.analysis import (
+#                             # ShowSimsPrepExecutor, 
+#                             CommonRealPostExecutor,
+#                             CommonPredPostExecutor,
+#                             CommonShowSimsPostExecutor,
+#                             # CommonCMBNNCSPredPostExecutor,
+#                             # CommonCMBNNCSShowSimsPostExecutor,
+#                             # CommonCMBNNCSShowSimsPostIndivExecutor,
+#                             # CMBNNCSShowSimsPredExecutor, 
+#                             # CMBNNCSShowSimsPostExecutor,
+#                             PixelAnalysisExecutor,
+#                             PixelSummaryExecutor,
+#                             # ConvertTheoryPowerSpectrumExecutor,
+#                             # MakeTheoryPSStats,
+#                             # CMBNNCSMakePSExecutor,
+#                             # PixelSummaryFigsExecutor,
+#                             # PowerSpectrumAnalysisExecutor,
+#                             # PowerSpectrumSummaryExecutor,
+#                             # PowerSpectrumSummaryFigsExecutor,
+#                             # PostAnalysisPsFigExecutor,
+#                             # ShowOnePSExecutor
+#                             )
 
 
 logger = logging.getLogger(__name__)
@@ -87,9 +87,9 @@ def run_cmbnncs(cfg):
 
     pipeline_context.add_pipe(TrainingExecutor)
 
-    pipeline_context.add_pipe(PredictionExecutor)
+    # pipeline_context.add_pipe(PredictionExecutor)
     # pipeline_context.add_pipe(CMBNNCSShowSimsPredExecutor)  # Deactivated during repo separation
-    pipeline_context.add_pipe(PostprocessExecutor)
+    # pipeline_context.add_pipe(PostprocessExecutor)
     # # pipeline_context.add_pipe(NonParallelPostprocessExecutor)  # For demonstration only
 
     # pipeline_context.add_pipe(MaskCreatorExecutor)

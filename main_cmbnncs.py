@@ -58,16 +58,16 @@ def cmbnncs(cfg):
     pipes = [
         # HydraConfigCheckerExecutor,
         # HydraConfigCMBNNCSCheckerExecutor,
-        # PreprocessMakeScaleExecutor,
-        # PreprocessExecutor,
+        PreprocessMakeScaleExecutor,
+        PreprocessExecutor,
         TrainingExecutor,
-        # PredictionExecutor,
-        # PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
-        # CommonRealPostExecutor,
-        # CommonPredPostExecutor,
-        # cmbNNCSShowPostExecutor,
-        # LossPlotExecutor
+        PredictionExecutor,
+        PostprocessExecutor,
+        cmbNNCSMakePSExecutor,
+        CommonRealPostExecutor,
+        CommonPredPostExecutor,
+        cmbNNCSShowPostExecutor,
+        LossPlotExecutor
     ]
     run(cfg, pipes)
 

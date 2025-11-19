@@ -156,6 +156,7 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
             batch_n = 0
 
             # Training
+            model.train()
             with tqdm(train_dataloader, desc="Training", postfix={'Loss': 0}) as pbar:
                 for train_features, train_label in pbar:
                     batch_n += 1  # Unused

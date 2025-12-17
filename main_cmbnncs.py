@@ -54,8 +54,6 @@ logger = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="cfg", config_name="config_cmbnncs_unet8")
 def cmbnncs(cfg):
-    print(cfg.splits)
-    exit()
     logger.debug(f"Running {__name__} in {__file__}")
     pipes = [
         # HydraConfigCheckerExecutor,

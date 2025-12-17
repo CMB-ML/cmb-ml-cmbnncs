@@ -54,20 +54,22 @@ logger = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="cfg", config_name="config_cmbnncs_unet8")
 def cmbnncs(cfg):
+    print(cfg.splits)
+    exit()
     logger.debug(f"Running {__name__} in {__file__}")
     pipes = [
         # HydraConfigCheckerExecutor,
         # HydraConfigCMBNNCSCheckerExecutor,
-        PreprocessMakeScaleExecutor,
-        PreprocessExecutor,
-        TrainingExecutor,
-        PredictionExecutor,
-        PostprocessExecutor,
+        # PreprocessMakeScaleExecutor,
+        # PreprocessExecutor,
+        # TrainingExecutor,
+        # PredictionExecutor,
+        # PostprocessExecutor,
         cmbNNCSMakePSExecutor,
-        CommonRealPostExecutor,
-        CommonPredPostExecutor,
-        cmbNNCSShowPostExecutor,
-        LossPlotExecutor
+        # CommonRealPostExecutor,
+        # CommonPredPostExecutor,
+        # cmbNNCSShowPostExecutor,
+        # LossPlotExecutor
     ]
     run(cfg, pipes)
 
@@ -106,4 +108,4 @@ def run(cfg, pipes):
 
 if __name__ == "__main__":
     cmbnncs()
-    # cmbnncs_on_planck()
+    cmbnncs_on_planck()

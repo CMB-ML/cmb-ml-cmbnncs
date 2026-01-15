@@ -58,12 +58,12 @@ def cmbnncs(cfg):
     pipes = [
         # HydraConfigCheckerExecutor,
         # HydraConfigCMBNNCSCheckerExecutor,
-        # PreprocessMakeScaleExecutor,
-        # PreprocessExecutor,
-        # TrainingExecutor,
-        # PredictionExecutor,
-        # PostprocessExecutor,
-        cmbNNCSMakePSExecutor,
+        PreprocessMakeScaleExecutor,
+        PreprocessExecutor,
+        TrainingExecutor,
+        PredictionExecutor,
+        PostprocessExecutor,
+        # cmbNNCSMakePSExecutor,
         # CommonRealPostExecutor,
         # CommonPredPostExecutor,
         # cmbNNCSShowPostExecutor,
@@ -79,8 +79,8 @@ def cmbnncs_on_planck(cfg):
         PreprocessExecutor,
         PredictionExecutor,
         PostprocessExecutor,
-        cmbNNCSMakePSExecutor,
-        cmbNNCSShowPostExecutor
+        # cmbNNCSMakePSExecutor,
+        # cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)
 

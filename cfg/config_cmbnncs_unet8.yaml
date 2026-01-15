@@ -3,7 +3,7 @@ defaults:
   - file_system    : common_fs
   - pipeline       : assembly_cmbnncs
   - scenario       : scenario
-  - splits         : new_all  # If you aren't getting as many results as expected, check n_infer_cap as well
+  - splits         : new            # If you aren't getting as many results as expected, check n_infer_cap as well
   - model          : cmbnncs_model
   - model/analysis : basic_analysis
   - override hydra/job_logging: custom_log
@@ -11,16 +11,16 @@ defaults:
 
 # dataset_name: CMML_Dataset
 # When creating multiple datasets, using interpolation like this may be easier:
-dataset_name       : ${map_fields}_${scenario.nside}_1550  # TODO: need to hardcode this for use with on_planck
+dataset_name       : ${map_fields}_${scenario.nside}_${splits.name}  # TODO: need to hardcode this for use with on_planck
 working_dir        : "cmbNNCS_UNet8/"
 fig_model_name     : cmbNNCS
 hydra:
   run:
     dir            : Logs/${now:%Y-%m-%d-%H-%M-%S}
   verbose          : true
-model:
-  analysis:
-    lmax_ratio : 2
+# model:
+#   analysis:
+#     lmax_ratio : # 2
 
 # Settings below this point are used for interpolation.
 # These are not to be used directly in the python

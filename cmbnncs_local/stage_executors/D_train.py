@@ -87,16 +87,8 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
         logger.info(f"Checkpoint every {self.checkpoint} iterations")
         logger.info(f"Extra check is set to {self.extra_check}")
 
-        train_split = self.splits[0]
-        valid_split = self.splits[1]
-
-        # template_split = self.splits[0]
-        # dataset = self.set_up_dataset(template_split)
-        # train_dataloader = DataLoader(
-        #     dataset, 
-        #     batch_size=self.batch_size, 
-        #     shuffle=True,
-        #     )
+        train_split = self.splits.get("train")
+        valid_split = self.splits.get("valid")
 
         train_dataset = self.set_up_dataset(train_split)
         train_dataloader = DataLoader(

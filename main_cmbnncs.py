@@ -29,7 +29,7 @@ from cmbml.core import (
                       LogMaker
                       )
 from cmbml.core.A_check_hydra_configs import HydraConfigCheckerExecutor
-from cmbml.sims import MaskCreatorExecutor
+from cmbml.sims.ex import MaskCreatorExecutor
 from cmbnncs_local import (
                            HydraConfigcmbNNCSCheckerExecutor,
                            PreprocessMakeScaleExecutor,
@@ -42,7 +42,7 @@ from cmbnncs_local import (
                            cmbNNCSMakePSExecutor,
                            cmbNNCSShowPostExecutor
                            )
-from cmbml.analysis import (
+from cmbml.analysis.ex import (
     CommonRealPostExecutor,
     CommonPredPostExecutor,
     LossPlotExecutor

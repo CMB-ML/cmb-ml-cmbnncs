@@ -63,7 +63,7 @@ def cmbnncs(cfg):
         TrainingExecutor,
         PredictionExecutor,
         PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
+        cmbNNCSMakePSExecutor,
         # CommonRealPostExecutor,
         # CommonPredPostExecutor,
         # cmbNNCSShowPostExecutor,
@@ -79,7 +79,7 @@ def cmbnncs_on_planck(cfg):
         PreprocessExecutor,
         PredictionExecutor,
         PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
+        cmbNNCSMakePSExecutor,
         # cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)

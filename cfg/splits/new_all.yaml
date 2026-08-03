@@ -1,9 +1,9 @@
-name: "1550"
+name: "1850"
 Test:
   n_sims: 200
   n_sims_cap: ${n_infer_cap}
 TestFP:
-  n_sims: 100
+  n_sims: 200
   n_sims_cap: ${n_infer_cap}
   ps_fidu_fixed: true
   ps_fidu_planck: true
@@ -13,7 +13,7 @@ Valid:
   n_sims: 250
   n_sims_cap: ${n_infer_cap}
 TestFNC:
-  n_sims: 100
+  n_sims: 200
   n_sims_cap: ${n_infer_cap}
   noise_fixed: true
 run_inference_on: ${run_inference_on}

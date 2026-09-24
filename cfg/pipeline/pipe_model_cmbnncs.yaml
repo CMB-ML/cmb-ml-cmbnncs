@@ -55,8 +55,7 @@ predict:
   assets_in:
     model: {stage: train}
     obs_maps: {stage: preprocess}
-  splits:
-    - ${splits.run_inference_on}
+  splits: ${splits.run_inference_on}
   epochs: ${use_epochs}
   dir_name: CMBNNCS_E_Predict
   make_stage_log: True
@@ -69,8 +68,7 @@ postprocess: &final_inference
   assets_in:
     dataset_stats: {stage: make_normalization}
     cmb_map: {stage: predict}
-  splits:
-    - ${splits.run_inference_on}
+  splits: ${splits.run_inference_on}
   epochs: ${use_epochs}
   dir_name: CMBNNCS_F_Postprocess
   make_stage_log: True
@@ -87,8 +85,7 @@ show_cmb_pred_cmbnncs:
     cmb_map_pred: {stage: predict, orig_name: cmb_map}
     cmb_map_sim: {stage: make_sims, orig_name: cmb_map}
     deltabandpass: {stage: raw}
-  splits:
-    - ${splits.run_inference_on}
+  splits: ${splits.run_inference_on}
   override_n_sims: ${n_show_cap}
   plot_min_max: 500                  # value, v: plots from -v to +v; null: allow MPL to choose; list (size 2): min and max val
   make_stage_log: False
@@ -117,3 +114,4 @@ show_sims_prep_cmbnncs:
   plot_min_max: 500                  # value, v: plots from -v to +v; null: allow MPL to choose; list (size 2): min and max val
   dir_name: Analysis_2A_Show_Sims_Prep_CMBNNCS
   make_stage_log: False
+  

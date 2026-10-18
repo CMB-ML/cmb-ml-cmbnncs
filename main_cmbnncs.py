@@ -45,6 +45,10 @@ from cmbnncs_local import (
 from cmbml.analysis.ex import (
     CommonRealPostExecutor,
     CommonPredPostExecutor,
+    ShowSimsPostExecutor,
+    PixelAnalysisExecutor,
+    PixelSummaryExecutor,
+    PixelSummaryFigsExecutor,
     LossPlotExecutor
 )
 
@@ -58,16 +62,19 @@ def cmbnncs(cfg):
     pipes = [
         # HydraConfigCheckerExecutor,
         # HydraConfigCMBNNCSCheckerExecutor,
-        PreprocessMakeScaleExecutor,
-        PreprocessExecutor,
-        TrainingExecutor,
-        PredictionExecutor,
-        PostprocessExecutor,
-        cmbNNCSMakePSExecutor,
+        # PreprocessMakeScaleExecutor,
+        # PreprocessExecutor,
+        # TrainingExecutor,
+        # PredictionExecutor,
+        # PostprocessExecutor,
+        # cmbNNCSMakePSExecutor,
         # CommonRealPostExecutor,
-        # CommonPredPostExecutor,
-        # cmbNNCSShowPostExecutor,
-        # LossPlotExecutor
+        CommonPredPostExecutor,
+        ShowSimsPostExecutor,
+        PixelAnalysisExecutor,
+        PixelSummaryExecutor,
+        PixelSummaryFigsExecutor,
+        LossPlotExecutor
     ]
     run(cfg, pipes)
 
@@ -106,4 +113,4 @@ def run(cfg, pipes):
 
 if __name__ == "__main__":
     cmbnncs()
-    cmbnncs_on_planck()
+    # cmbnncs_on_planck()

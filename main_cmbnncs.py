@@ -39,8 +39,8 @@ from cmbnncs_local import (
                            PredictionExecutor,
                            PostprocessExecutor,
                         #    NonParallelPostprocessExecutor
-                           cmbNNCSMakePSExecutor,
-                           cmbNNCSShowPostExecutor
+                        #    cmbNNCSMakePSExecutor,
+                        #    cmbNNCSShowPostExecutor
                            )
 from cmbml.analysis.ex import (
     CommonRealPostExecutor,
@@ -86,7 +86,7 @@ def cmbnncs_on_planck(cfg):
         PreprocessExecutor,
         PredictionExecutor,
         PostprocessExecutor,
-        cmbNNCSMakePSExecutor,
+        # cmbNNCSMakePSExecutor,
         # cmbNNCSShowPostExecutor
     ]
     run(cfg, pipes)

@@ -30,17 +30,13 @@ from cmbml.core import (
                       )
 from cmbml.core.A_check_hydra_configs import HydraConfigCheckerExecutor
 from cmbml.sims.ex import MaskCreatorExecutor
-from cmbnncs_local import (
+from cmbnncs_local.ex import (
                            HydraConfigcmbNNCSCheckerExecutor,
                            PreprocessMakeScaleExecutor,
                            PreprocessExecutor,
-                        #    NonParallelPreprocessExecutor,
                            TrainingExecutor,
                            PredictionExecutor,
                            PostprocessExecutor,
-                        #    NonParallelPostprocessExecutor
-                        #    cmbNNCSMakePSExecutor,
-                        #    cmbNNCSShowPostExecutor
                            )
 from cmbml.analysis.ex import (
     CommonRealPostExecutor,
@@ -49,7 +45,8 @@ from cmbml.analysis.ex import (
     PixelAnalysisExecutor,
     PixelSummaryExecutor,
     PixelSummaryFigsExecutor,
-    LossPlotExecutor
+    LossPlotExecutor,
+    MakePredPowerSpectrumExecutor
 )
 
 
@@ -69,12 +66,13 @@ def cmbnncs(cfg):
         # PostprocessExecutor,
         # cmbNNCSMakePSExecutor,
         # CommonRealPostExecutor,
-        CommonPredPostExecutor,
+        # CommonPredPostExecutor,
         ShowSimsPostExecutor,
-        PixelAnalysisExecutor,
-        PixelSummaryExecutor,
-        PixelSummaryFigsExecutor,
-        LossPlotExecutor
+        # PixelAnalysisExecutor,
+        # PixelSummaryExecutor,
+        # PixelSummaryFigsExecutor,
+        # LossPlotExecutor,
+        # MakePredPowerSpectrumExecutor
     ]
     run(cfg, pipes)
 

@@ -62,16 +62,16 @@ def cmbnncs(cfg):
         # PreprocessMakeScaleExecutor,
         # PreprocessExecutor,
         # TrainingExecutor,
+        LossPlotExecutor,
         # PredictionExecutor,
         # PostprocessExecutor,
         # cmbNNCSMakePSExecutor,
         # CommonRealPostExecutor,
-        # CommonPredPostExecutor,
+        CommonPredPostExecutor,
         ShowSimsPostExecutor,
-        # PixelAnalysisExecutor,
-        # PixelSummaryExecutor,
-        # PixelSummaryFigsExecutor,
-        # LossPlotExecutor,
+        PixelAnalysisExecutor,
+        PixelSummaryExecutor,
+        PixelSummaryFigsExecutor,
         # MakePredPowerSpectrumExecutor
     ]
     run(cfg, pipes)

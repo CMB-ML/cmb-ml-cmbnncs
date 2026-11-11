@@ -1,6 +1,6 @@
 from omegaconf import DictConfig
 
-from cmbml.analysis import MakePredPowerSpectrumExecutor
+from cmbml.analysis.ex import MakePredPowerSpectrumExecutor
 
 
 class cmbNNCSMakePSExecutor(MakePredPowerSpectrumExecutor):

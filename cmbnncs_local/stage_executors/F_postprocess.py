@@ -39,6 +39,7 @@ class TaskTarget(NamedTuple):
     asset_out: FrozenAsset
     all_map_fields: str
     norm_factors: float
+    map_units: str
 
 
 class PostprocessExecutor(BaseStageExecutor):
@@ -57,6 +58,7 @@ class PostprocessExecutor(BaseStageExecutor):
         in_dataset_stats_handler: Config
         in_cmb_map_handler: NumpyMap
 
+        self.map_units = self.cfg.scenario.units
         self.num_processes = self.cfg.model.postprocess.num_processes
 
     def execute(self) -> None:
@@ -88,6 +90,7 @@ class PostprocessExecutor(BaseStageExecutor):
                             asset_out=cmb_asset_out,
                             all_map_fields=self.cfg.scenario.map_fields,
                             norm_factors=scale_factors['cmb'],
+                            map_units=self.map_units,
                         )
                     tasks.append(x)
         return tasks
@@ -129,7 +132,7 @@ def parallel_postprocess(task_target: TaskTarget):
     out_asset.handler.write(path=out_asset.path, 
                             data=prepped_map, 
                             column_names=[f"STOKES_{f}" for f in tt.all_map_fields],
-                            column_units=["uK_CMB"] * len(tt.all_map_fields))
+                            column_units=[tt.map_units] * len(tt.all_map_fields))
 
 
 def postprocess_map(all_map_fields: str, 

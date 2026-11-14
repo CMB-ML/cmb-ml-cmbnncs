@@ -28,10 +28,8 @@ from cmbml.core import (
                       PipelineContext,
                       LogMaker
                       )
-from cmbml.core.A_check_hydra_configs import HydraConfigCheckerExecutor
 from cmbml.sims.ex import MaskCreatorExecutor
 from cmbnncs_local.ex import (
-                           HydraConfigcmbNNCSCheckerExecutor,
                            PreprocessMakeScaleExecutor,
                            PreprocessExecutor,
                            TrainingExecutor,
@@ -57,35 +55,20 @@ logger = logging.getLogger(__name__)
 def cmbnncs(cfg):
     logger.debug(f"Running {__name__} in {__file__}")
     pipes = [
-        # HydraConfigCheckerExecutor,
-        # HydraConfigCMBNNCSCheckerExecutor,
-        # PreprocessMakeScaleExecutor,
-        # PreprocessExecutor,
-        # TrainingExecutor,
+        PreprocessMakeScaleExecutor,
+        PreprocessExecutor,
+        MaskCreatorExecutor,
+        TrainingExecutor,
         LossPlotExecutor,
-        # PredictionExecutor,
-        # PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
-        # CommonRealPostExecutor,
+        PredictionExecutor,
+        PostprocessExecutor,
+        CommonRealPostExecutor,
         CommonPredPostExecutor,
         ShowSimsPostExecutor,
         PixelAnalysisExecutor,
         PixelSummaryExecutor,
         PixelSummaryFigsExecutor,
-        # MakePredPowerSpectrumExecutor
-    ]
-    run(cfg, pipes)
-
-
-@hydra.main(version_base=None, config_path="cfg", config_name="config_cmbnncs_op")
-def cmbnncs_on_planck(cfg):
-    logger.debug(f"Running {__name__} in {__file__}")
-    pipes = [
-        PreprocessExecutor,
-        PredictionExecutor,
-        PostprocessExecutor,
-        # cmbNNCSMakePSExecutor,
-        # cmbNNCSShowPostExecutor
+        MakePredPowerSpectrumExecutor
     ]
     run(cfg, pipes)
 
@@ -111,4 +94,3 @@ def run(cfg, pipes):
 
 if __name__ == "__main__":
     cmbnncs()
-    # cmbnncs_on_planck()

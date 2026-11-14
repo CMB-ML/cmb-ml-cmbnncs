@@ -119,15 +119,18 @@ class TrainingExecutor(BaseCMBNNCSModelExecutor):
 
         if self.restart_epoch is not None:
             logger.info(f"Restarting training at epoch {self.restart_epoch}")
-            # The following returns the epoch number stored in the checkpoint 
-            #     as well as loading the model and optimizer with checkpoint information
             with self.name_tracker.set_context("epoch", self.restart_epoch):
-                start_epoch = self.in_model.read(model=model, 
-                                                 epoch=self.restart_epoch, 
-                                                 optimizer=optimizer, 
-                                                 scheduler=scheduler)
+                checkpoint_info = self.in_model.read(model=model,
+                                                  epoch=self.restart_epoch,
+                                                  optimizer=optimizer,
+                                                  scheduler=scheduler)
+            start_epoch = checkpoint_info["epoch"]
             if start_epoch == "init":
                 start_epoch = 0
+            else:
+                logger.warning(
+                    "Training resumption is untested. Existing checkpoints do not store scheduler state. Best-model selection history is reset, and the loss record may require manual cleanup."
+                )
             self.out_loss_record.start()  # New lines will be added, naively 
                                           #  Naively = appended; if resuming, manual cleaning may be needed.
         else:

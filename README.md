@@ -49,7 +49,6 @@ cd cmbNNCS_assets
 rclone copyurl \
     'https://utdallas.app.box.com/index.php?rm=box_download_shared_file&shared_name=zrw9om3ddgdmzlkqwlc9imb3jihk44ze&file_id=f_2590609358166' \
     ./cmbNNCS_UNet8_assets.tar --progress
-cd ..
 ```
 
 The archive has the following properties:
@@ -76,6 +75,7 @@ MODEL_DIR="$CMB_ML_DATA/Datasets/I_512_1850_UnifWMAP_Wide/cmbNNCS_UNet8"
 
 mkdir -p "$MODEL_DIR"
 tar -xvf cmbNNCS_UNet8_assets.tar -C "$MODEL_DIR"
+cd ..
 ```
 
 ## Reproducing the Reported Results

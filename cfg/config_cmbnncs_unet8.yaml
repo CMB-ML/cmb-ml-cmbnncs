@@ -17,7 +17,7 @@ fig_model_name     : cmbNNCS
 hydra:
   run:
     dir            : Logs/${now:%Y-%m-%d-%H-%M-%S}
-  verbose          : true
+  verbose          : false
 # model:
 #   analysis:
 #     lmax_ratio : # 2
